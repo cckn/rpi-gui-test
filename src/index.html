@@ -15,21 +15,29 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
     />
 
-    <title>ENITT | Kiosk <%= env %></title>
+    <title>ENITT | Kiosk (개발용)</title>
+    <link rel="icon" href="/assets/favicon.png" />
+    <link href="main.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="toast" class="notification is-primary is-light"></div>
-
     <section class="section">
       <div class="container">
-        <div class="box">
-          <h2 class="title is-2"></h2>
+        <h2 class="title is-2">Random Data</h2>
+        <div class="box random-box">
+          <span class="random-span">랜덤 데이터</span>
         </div>
-        <div class="box">
-          <h2 class="title is-2"></h2>
-          <button class="button is-primary go-home-botton24"></button>
+        <h2 class="title is-2">Control</h2>
+        <div class="box control_box">
+          <span class="control-span">컨트롤 데이터</span>
+          <div class="btn_group">
+            <button class="button is-success button-on">On</button>
+            <button class="button is-danger button-off">Off</button>
+          </div>
         </div>
+
+        <span class="now">컨트롤 데이터</span>
       </div>
     </section>
+    <script src="main.js"></script>
   </body>
 </html>

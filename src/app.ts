@@ -2,35 +2,57 @@ import "./app.css";
 import axios from "axios";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const $now: HTMLLabelElement | null = document.querySelector(".time-now");
-  // const $goWorkScript: HTMLLabelElement | null = document.querySelector(
-  //   ".go-work-script"
-  // );
-  // const $goWorkBotton: HTMLButtonElement | null = document.querySelector(
-  //   ".go-work-botton"
-  // );
-  // const $goHomeScript: HTMLLabelElement | null = document.querySelector(
-  //   ".go-home-script"
-  // );
-  // const $goHomeBotton: HTMLButtonElement | null = document.querySelector(
-  //   ".go-home-botton"
-  // );
-  // const $goHomeScript24: HTMLLabelElement | null = document.querySelector(
-  //   ".go-home-script24"
-  // );
-  // const $goHomeBotton24: HTMLButtonElement | null = document.querySelector(
-  //   ".go-home-botton24"
-  // );
+  const $now: HTMLSpanElement | null = document.querySelector(".now");
 
-  // $goWorkBotton?.addEventListener("click", function () {});
+  const $randomSpan: HTMLSpanElement | null = document.querySelector(
+    ".random-span"
+  );
+  const $controlSpan: HTMLSpanElement | null = document.querySelector(
+    ".control-span"
+  );
+  const $onButton: HTMLButtonElement | null = document.querySelector(
+    ".button-on"
+  );
+  const $offButton: HTMLButtonElement | null = document.querySelector(
+    ".button-off"
+  );
 
-  // $goHomeBotton?.addEventListener("click", function () {});
+  const onOffFn = async (data: "on" | "off") => {
+    return await axios.put(
+      "http://localhost:3000/api/state",
+      { data },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+  $onButton?.addEventListener("click", async (e) => {
+    const { data } = await onOffFn("on");
+    if ($controlSpan) $controlSpan.innerText = data;
+  });
 
-  // $goHomeBotton24?.addEventListener("click", function () {});
+  $offButton?.addEventListener("click", async () => {
+    const { data } = await onOffFn("off");
+    if ($controlSpan) $controlSpan.innerText = data;
+  });
 
-  const updata = () => {
+  const updata = async () => {
     const now = new Date();
     ($now as HTMLHeadElement).innerHTML = `${now.toLocaleString()}`;
+
+    const { data: random } = await axios.get(
+      "http://localhost:3000/api/random"
+    );
+    const { data: state } = await axios.get("http://localhost:3000/api/state");
+
+    if ($randomSpan) {
+      $randomSpan.innerText = random;
+    }
+    if ($controlSpan) {
+      $controlSpan.innerText = state;
+    }
   };
 
   updata();
