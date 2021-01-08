@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
   };
+
   $onButton?.addEventListener("click", async (e) => {
     const { data } = await onOffFn("on");
     if ($controlSpan) $controlSpan.innerText = data;
@@ -40,23 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updata = async () => {
     const now = new Date();
-    ($now as HTMLHeadElement).innerHTML = `${now.toLocaleString()}`;
 
     const { data: random } = await axios.get(
       "http://localhost:3000/api/random"
     );
     const { data: state } = await axios.get("http://localhost:3000/api/state");
 
-    if ($randomSpan) {
-      $randomSpan.innerText = random;
-    }
-    if ($controlSpan) {
-      $controlSpan.innerText = state;
-    }
+    if ($now) $now.innerHTML = `${now.toLocaleString()}`;
+    if ($randomSpan) $randomSpan.innerText = random;
+    if ($controlSpan) $controlSpan.innerText = state;
   };
 
   updata();
   setInterval(() => {
     updata();
-  }, 1000);
+  }, 100);
 });

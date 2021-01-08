@@ -1,3 +1,10 @@
+body {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
 .container {
   margin-top: 20px;
   width: 767px;
@@ -6,10 +13,19 @@
   display: flex;
   justify-content: center;
 }
+
+.control-title {
+  margin-top: 100px;
+}
 .control_box {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+}
+
+.control-span {
+  padding-right: 100px;
+  margin-top: 20px;
 }
 .now {
   float: right;

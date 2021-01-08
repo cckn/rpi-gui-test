@@ -77,7 +77,6 @@ module.exports = {
     }),
     // new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: "[name].css" }),
-    new FaviconsWebpackPlugin("./favicon.png"),
     ...(env === "development" ? [] : []),
   ],
 
