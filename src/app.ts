@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
 
           options: {
+            responsive: false,
             animation: {
               duration: 0,
             },

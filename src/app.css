@@ -28,22 +28,29 @@ body {
   grid-area: 1/ 1/ 3/ 3;
 }
 .grid__metric {
+  font-size: 3rem;
+  font-weight: 600;
 }
 .grid__now {
 }
 .grid__status {
-  font-size: xx-large;
+  font-size: 4rem;
   font-weight: 600;
 }
 .grid__control {
   grid-column: 2 / span 2;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .button {
   width: 120px;
   height: 80px;
   font-size: larger;
+}
+
+.status--on {
+}
+.status--off {
 }
 
 @media (max-width: 767px) {
