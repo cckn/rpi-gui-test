@@ -5,31 +5,47 @@ body {
   display: none;
 }
 
-.container {
-  margin-top: 20px;
-  width: 767px;
+.section {
+  padding: 0 0 0 0;
+  width: 100vw;
+  height: 100vh;
 }
-.random-box {
-  display: flex;
-  justify-content: center;
+.grid {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
-
-.control-title {
-  margin-top: 100px;
-}
-.control_box {
+.box {
+  margin: 24px 24px 24px 24px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.control-span {
-  padding-right: 100px;
-  margin-top: 20px;
+.grid__chart {
+  grid-area: 1/ 1/ 3/ 3;
 }
-.now {
-  float: right;
+.grid__metric {
 }
+.grid__now {
+}
+.grid__status {
+  font-size: xx-large;
+  font-weight: 600;
+}
+.grid__control {
+  grid-column: 2 / span 2;
+  justify-content: space-around;
+}
+
+.button {
+  width: 120px;
+  height: 80px;
+  font-size: larger;
+}
+
 @media (max-width: 767px) {
   .section {
     width: 100vw;

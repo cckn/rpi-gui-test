@@ -21,21 +21,23 @@
   </head>
   <body>
     <section class="section">
-      <div class="container">
-        <h2 class="title is-2">Random Data</h2>
-        <div class="box random-box">
+      <div class="grid container">
+        <div class="box grid__chart">
+          <canvas id="myChart" width="100%" height="100%"></canvas>
+        </div>
+        <div class="box grid__now">
+          <span class="now title is-4">현재 시각</span>
+        </div>
+        <div class="box grid__metric">
           <span class="random-span title is-4">랜덤 데이터</span>
         </div>
-        <h2 class="title is-2 control-title">Control</h2>
-        <div class="box control_box">
-          <span class="control-span title is-4">컨트롤 데이터</span>
-          <div class="btn_group">
-            <button class="button is-success button-on">On</button>
-            <button class="button is-danger button-off">Off</button>
-          </div>
+        <div class="box grid__status status--on">
+          <span class="control-span">컨트롤 데이터</span>
         </div>
-
-        <span class="now">컨트롤 데이터</span>
+        <div class="box grid__control">
+          <button class="button is-success button-on">On</button>
+          <button class="button is-danger button-off">Off</button>
+        </div>
       </div>
     </section>
     <script src="main.js"></script>
