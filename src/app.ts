@@ -54,8 +54,7 @@ const update = async () => {
   updataState(state);
 
   chart.addValue(now.getSeconds().toString(), random);
-  // chart.update();
-  let prevN = 0;
+
   setTimeout(() => {
     requestAnimationFrame(update);
   }, interval);

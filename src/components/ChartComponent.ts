@@ -70,6 +70,18 @@ export default class ChartComponent {
       this.chart.data.labels?.shift();
       this.chart.data.datasets[0].data.push(data);
       this.chart.data.datasets[0].data.shift();
+
+      const min = Math.min(...(this.chart.data.datasets[0].data as number[]));
+      const max = Math.max(...(this.chart.data.datasets[0].data as number[]));
+
+      if (
+        this.chart.options.scales &&
+        this.chart.options.scales.yAxes &&
+        this.chart.options.scales.yAxes[0].ticks
+      ) {
+        this.chart.options.scales.yAxes[0].ticks.min = min - 100;
+        this.chart.options.scales.yAxes[0].ticks.max = max + 100;
+      }
     }
     this.chart.update();
   }
