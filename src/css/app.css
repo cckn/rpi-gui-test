@@ -25,6 +25,7 @@ body {
 }
 
 .grid__chart {
+  display: inline-block;
   grid-area: 1/ 1/ 3/ 3;
 }
 .grid__metric {
@@ -49,8 +50,10 @@ body {
 }
 
 .status--on {
+  background-color: #effaf3;
 }
 .status--off {
+  background-color: #feecf0;
 }
 
 @media (max-width: 767px) {

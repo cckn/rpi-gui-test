@@ -1,123 +1,65 @@
-import "./app.css";
-import axios from "axios";
-import Chart from "chart.js";
+import "./css/app.css";
+import ChartComponent from "./components/ChartComponent";
+import api from "./api";
+import ButtonComponent from "./components/ButtonComponent";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const $now: HTMLSpanElement | null = document.querySelector(".now");
+const $now: HTMLSpanElement | null = document.querySelector(".now");
 
-  const $randomSpan: HTMLSpanElement | null = document.querySelector(
-    ".random-span"
-  );
-  const $controlSpan: HTMLSpanElement | null = document.querySelector(
-    ".control-span"
-  );
-  const $onButton: HTMLButtonElement | null = document.querySelector(
-    ".button-on"
-  );
-  const $offButton: HTMLButtonElement | null = document.querySelector(
-    ".button-off"
-  );
+const $randomSpan: HTMLSpanElement | null = document.querySelector(
+  ".random-span"
+);
+const $controlSpan: HTMLSpanElement | null = document.querySelector(
+  ".control-span"
+);
+const $grid__status = document.querySelector(".grid__status");
+const $grid__control = document.querySelector(".grid__control");
 
-  const onOffFn = async (data: "on" | "off") => {
-    return await axios.put(
-      "http://localhost:3000/api/state",
-      { data },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  };
+const updataState = (state: "on" | "off") => {
+  if ($controlSpan) $controlSpan.innerText = state;
 
-  $onButton?.addEventListener("click", async (e) => {
-    const { data } = await onOffFn("on");
-    if ($controlSpan) $controlSpan.innerText = data;
-  });
-
-  $offButton?.addEventListener("click", async () => {
-    const { data } = await onOffFn("off");
-    if ($controlSpan) $controlSpan.innerText = data;
-  });
-
-  const $chart: HTMLCanvasElement | null = document.querySelector("#myChart");
-
-  let chart: Chart;
-  const data: number[] = [];
-  const labels: number[] = [];
-  let count = 0;
-  const ctx = $chart?.getContext("2d");
-
-  if (ctx) {
-    chart = new Chart(ctx, {
-      type: "line",
-      data: {},
-    });
+  if (state === "on") {
+    $grid__status?.classList.replace("status--off", "status--on");
+  } else {
+    $grid__status?.classList.replace("status--on", "status--off");
   }
+};
+const controlState = async (state: "on" | "off") => {
+  const { data } = await api.putState(state);
+  updataState(data);
+};
 
-  const updata = async () => {
-    const now = new Date();
+if ($grid__control) {
+  new ButtonComponent($grid__control, "on", {
+    onClick: (e) => controlState("on"),
+    classNames: "button is-success button-on",
+  });
+  new ButtonComponent($grid__control, "off", {
+    onClick: (e) => controlState("off"),
+    classNames: "button is-danger button-off",
+  });
+}
+const interval = 100;
+const $chart: HTMLCanvasElement | null = document.querySelector(".chart");
+const chart = new ChartComponent($chart as HTMLCanvasElement, 100, interval);
 
-    const { data: random } = await axios.get(
-      "http://localhost:3000/api/random"
-    );
-    const { data: state } = await axios.get("http://localhost:3000/api/state");
+const update = async () => {
+  const now = new Date();
 
-    data.push(parseFloat(random));
-    labels.push(count++);
+  const { data: random } = await api.getValue();
+  const { data: state } = await api.getState();
 
-    if (data.length > 100) {
-      data.shift();
-      labels.shift();
-    }
+  if ($now) $now.innerHTML = `${now.toLocaleTimeString()}`;
+  if ($randomSpan) $randomSpan.innerText = random.toFixed(2);
 
-    if ($now) $now.innerHTML = `${now.toLocaleTimeString()}`;
-    if ($randomSpan) $randomSpan.innerText = random.toFixed(2);
-    if ($controlSpan) $controlSpan.innerText = state;
+  updataState(state);
 
-    if ($chart && ctx) {
-      if (chart) {
-        chart.destroy();
-      }
-      if (ctx && $chart) {
-        chart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels,
-            datasets: [
-              {
-                label: "테스트 데이터셋",
-                data,
-                borderColor: "skyblue",
-                backgroundColor: "skyblue",
-                fill: true,
-              },
-            ],
-          },
+  chart.addValue(now.getSeconds().toString(), random);
+  // chart.update();
+  let prevN = 0;
+  setTimeout(() => {
+    requestAnimationFrame(update);
+  }, interval);
+};
 
-          options: {
-            responsive: false,
-            animation: {
-              duration: 0,
-            },
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    min: Math.min(...data) - 100,
-                    max: Math.max(...data) + 100,
-                  },
-                },
-              ],
-            },
-          },
-        });
-      }
-    }
-  };
-
-  updata();
-  setInterval(() => {
-    updata();
-  }, 100);
-});
+update();
+requestAnimationFrame(update);
